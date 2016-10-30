@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Courses</title>
+        {% load staticfiles %}
+       <link rel="stylesheet" href="{% static 'courses/css/master.css' %}"media="screen" title="no title"  charset="utf-8">
+    </head>
+    <body>
+        <p class="rightalign">Current User: {{request.session.activeuser.first_name}} {{request.session.activeuser.last_name}}   <a href="{% url 'users:logout' %}"><button type="button" name="logout">Logout</button></a></p>
+        {% if messages %}
+                {% for message in messages %}
+                    <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+                {% endfor %}
+        {% endif %}
+        <h3>Add a new course</h3>
+        <form action="{% url 'courses:add_course' %}" method="post">
+            {% csrf_token %}
+            <label>Name :           <br><input type="text"     name="name"      id='name'/>     </label><br>
+            <label>Description :     <br><textarea name="description"  rows="8" cols="40" id='description'>  </textarea>
+                                     <br><input type="submit"   name="submit" value='Add'/>
+        </form>
+        {% if messages %}
+            {% for message in messages.error %}
+                <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+
+        <table>
+          <tr>
+            <th>ID</th>
+            <th>Course Name</th>
+            <th>Description</th>
+            <th class='action'>Action</th>
+          </tr>
+          {% for course in all_courses %}
+          <tr>
+            <th>{{ course.id }}</th>
+            <th>{{ course.name }}</th>
+            <th>{{ course.description }}</th>
+            <th class='action'>
+            <form  class='mybutton' action="{% url 'courses:del_prompt' id=course.id %}" method="post">{% csrf_token %}<input id={{ course.id }} type="submit" name="{{ course.id }}" value="Delete"></form>
+            <form  class='mybutton' action="{% url 'courses:enroll' id=course.id %}" method="post">{% csrf_token %}<input id={{ course.id }} type="submit" name="{{ course.id }}" value="Enroll"></form>
+            </th>
+          </tr>
+          {% endfor %}
+        </table>
+    </body>
+</html>
