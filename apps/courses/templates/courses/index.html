@@ -31,16 +31,18 @@
             <th>ID</th>
             <th>Course Name</th>
             <th>Description</th>
+            <th>Number Enrolled</th>
             <th class='action'>Action</th>
           </tr>
           {% for course in all_courses %}
           <tr>
-            <th>{{ course.id }}</th>
-            <th>{{ course.name }}</th>
-            <th>{{ course.description }}</th>
+            <th>{{ course.0.id }}</th>
+            <th>{{ course.0.name }}</th>
+            <th>{{ course.0.description }}</th>
+            <th>{{  course.1 }}</th>
             <th class='action'>
-            <form  class='mybutton' action="{% url 'courses:del_prompt' id=course.id %}" method="post">{% csrf_token %}<input id={{ course.id }} type="submit" name="{{ course.id }}" value="Delete"></form>
-            <form  class='mybutton' action="{% url 'courses:enroll' id=course.id %}" method="post">{% csrf_token %}<input id={{ course.id }} type="submit" name="{{ course.id }}" value="Enroll"></form>
+            <form  class='mybutton' action="{% url 'courses:del_prompt' id=course.0.id %}" method="post">{% csrf_token %}<input id={{ course.0.id }} type="submit" name="{{ course.0.id }}" value="Delete"></form>
+            <form  class='mybutton' action="{% url 'courses:enroll' id=course.0.id %}" method="post">{% csrf_token %}<input id={{ course.0.id }} type="submit" name="{{ course.0.id }}" value="Enroll"></form>
             </th>
           </tr>
           {% endfor %}

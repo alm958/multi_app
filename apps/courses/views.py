@@ -19,7 +19,7 @@ def add_course(request):
 def index(request):
     all_courses = Course.objects.all_courses()
     context = {
-    'all_courses' : all_courses
+    'all_courses' : all_courses,
     }
     return render(request, 'courses/index.html', context )
 
@@ -37,7 +37,14 @@ def del_course(request, id):
 
 def enroll(request, id):
     course = Course.objects.get(id=id)
+    print course.name
     user = User.objects.get(id = request.session['activeuser']['id'])
+    print user
+    print user.id
+    print user.first_name, user.last_name
     course.users.add(user)
     course.save()
+    all_c_enrollee = course.users.all()
+    print course.users
+    print "c enrollees:", all_c_enrollee
     return redirect(reverse( 'users:showusers', kwargs={'id': request.session['activeuser']['id']}))

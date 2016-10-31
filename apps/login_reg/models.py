@@ -1,6 +1,6 @@
 from __future__ import unicode_literals
 from django.db import models
-from ..courses.models import Course
+# from ..courses.models import Course
 from datetime import datetime, date
 import bcrypt
 import re
@@ -58,8 +58,8 @@ class UserManager(models.Manager):
             users = list(User.objects.all())
         else :
             users = [self.get(id=kwargs['id'])]
-            course_list = Course.objects.filter(users__contains=kwargs['id'])
-            print course_list
+            # course_list = Course.objects.filter(users__contains=kwargs['id'])
+            # print course_list
         return users
 
     def updateuser(self, **kwargs):

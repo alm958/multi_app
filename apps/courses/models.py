@@ -25,7 +25,9 @@ class CourseManager(models.Manager):
         return (state, message_list)
 
     def all_courses(self):
-        return Course.objects.all()
+        all_courses = list(Course.objects.all())
+        all_courses = [(course, len(course.users.all())) for course in all_courses]
+        return all_courses
     # def login(self, **kwargs):
 
 
